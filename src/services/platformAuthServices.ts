@@ -1,28 +1,29 @@
+import { PlatformUserRepository } from "../repositories/platformUserRepository";
+import { ConflictError, AuthError } from "../utils/errors";
+
 import { ITokenProvider } from "../provider/interfaces/ItokenProvider";
-import { AuthRepositary } from "../repositories/authRepositary";
-import { AuthError, ConflictError } from "../utils/errors";
-import { LoginUserDto, RegisterUserDto } from "../dto/userDto";
 import { IPasswordHasher } from "../provider/interfaces/IPasswordHasher";
 
-export class AuthServices {
-  constructor(
-    private authRepositary: AuthRepositary,
-    private passwordHasher: IPasswordHasher,
-    private tokenProvider: ITokenProvider
-  ) {}
+export class PlatformAuthService {
+  private platformUserRepository: PlatformUserRepository;
+  private tokenProvider: ITokenProvider;
+  private passwordHasher: IPasswordHasher;
 
-  async SignUpService(schemaName: string, data: RegisterUserDto) {
-    const emailExists = await this.authRepositary.findUserExist(
-      schemaName,
-      data.email
-    );
+  constructor(tokenProvider: ITokenProvider, passwordHasher: IPasswordHasher) {
+    this.platformUserRepository = new PlatformUserRepository();
+    this.tokenProvider = tokenProvider;
+    this.passwordHasher = passwordHasher;
+  }
+  async PlatformSignupService(data: { name: string; email: string; password: string }) {
+    // check emailExists
+    const emailExists = await this.platformUserRepository.findEmailExists(data.email);
     if (emailExists) {
       throw new ConflictError("Email already exists");
     }
     //hash password
     const hashedPassword = await this.passwordHasher.hash(data.password);
     //create new tenant
-    const user = await this.authRepositary.registerUser(schemaName, {
+    const user = await this.platformUserRepository.create({
       ...data,
       password: hashedPassword,
     });
@@ -38,12 +39,9 @@ export class AuthServices {
     // return
     return { user: safeuser, accessToken, refreshToken };
   }
-  async LoginService(schemaName: string, data: LoginUserDto) {
-    const user = await this.authRepositary.findUserExist(
-      schemaName,
-      data.email
-    );
-
+  async  PlatformLoginService(data: { email: string; password: string }) {
+    // check emailExists
+    const user = await this.platformUserRepository.findEmailExists(data.email);
     if (!user) {
       throw new AuthError("invalid email or password");
     }

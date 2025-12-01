@@ -8,7 +8,57 @@ generator client {
 }
 
 model User {
-  id    Int    @id @default(autoincrement())
-  name  String
-  email String @unique
+  id       String  @id @default(uuid())
+  name     String
+  email    String  @unique
+  password String
+  tenant   Tenant?
+}
+
+enum ResourceType {
+  APPOINTMENT_ENGINE
+  TIME_RANGE_ENGINE
+}
+
+model Tenant {
+  id           String @id @default(uuid())
+  ownerId      String @unique
+  owner        User   @relation(fields: [ownerId], references: [id])
+  businessName String
+  slug         String @unique
+  category     String
+  address      String
+  city         String
+  country      String
+
+  resourceType  ResourceType
+  openTime      DateTime     @db.Time
+  closeTime     DateTime     @db.Time
+  daysAvailable String[]
+
+  paymentRequired    Boolean   @default(false)
+  paymentType        String? // FULL, ADVANCE, NONE
+  currency           String?   @default("INR")
+  bookingURL         String?
+  dashboardURL       String?
+  plan               String    @default("free")
+  subscriptionStatus String    @default("PENDING")
+  createdAt          DateTime  @default(now())
+}
+
+model Payment {
+  id String @id @default(uuid())
+  razorpayOrderId   String  @unique
+  razorpayPaymentId String? // NULL before payment is captured
+  amount   Int
+  currency String @default("INR")
+  status     String @default("PENDING")
+  rawPayload Json
+  processed   Boolean   @default(false)
+  retryCount  Int       @default(0)
+  lastTriedAt DateTime?
+  finalStatus String? // SUCCESS, FAILED_PERMANENT
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  meta Json
 }

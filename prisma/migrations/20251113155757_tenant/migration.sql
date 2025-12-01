@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Tenant" ALTER COLUMN "bookingURL" DROP NOT NULL,
+ALTER COLUMN "dashboardURL" DROP NOT NULL;

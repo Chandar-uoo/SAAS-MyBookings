@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import { AuthService } from "../services/authServices";
+import { PlatformAuthService } from "../services/platformAuthServices";
 import { JwtTokenProvider } from "../provider/implementations/jwtTokenProvider";
 import { PasswordHasher } from "../provider/implementations/bcryptHasher";
 const tokenProvider = new JwtTokenProvider();
 const passwordHasher = new PasswordHasher();
-const authService = new AuthService(tokenProvider, passwordHasher);
+const platformAuthService = new PlatformAuthService(tokenProvider, passwordHasher);
 
-export const signupController = async (req: Request, res: Response) => {
-  const { user, accessToken, refreshToken } = await authService.SignupService(
+export const platformSignupController = async (req: Request, res: Response) => {
+  const { user, accessToken, refreshToken } = await platformAuthService.PlatformSignupService(
     req.body
   );
   return res.status(201).json({
@@ -20,8 +20,8 @@ export const signupController = async (req: Request, res: Response) => {
   });
 };
 
-export const loginController = async (req: Request, res: Response) => {
-  const { user, accessToken, refreshToken } = await authService.LoginService(
+export const platFormLoginController = async (req: Request, res: Response) => {
+  const { user, accessToken, refreshToken } = await platformAuthService.PlatformLoginService(
     req.body
   );
   return res.status(200).json({
@@ -33,7 +33,7 @@ export const loginController = async (req: Request, res: Response) => {
     },
   });
 };
-export const logoutController = async (req: Request, res: Response) => {
+export const platformLogoutController = async (req: Request, res: Response) => {
 
   res.clearCookie("refreshToken", {
     httpOnly: true,

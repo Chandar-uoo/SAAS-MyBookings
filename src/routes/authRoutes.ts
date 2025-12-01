@@ -1,15 +1,14 @@
 import express, { Router } from "express";
 import asyncHandler from "../utils/asyncHandler";
 import {
-  loginController,
-  logoutController,
-  signupController,
-} from "../controllers/authConroller";
+  LoginController,
+  SignupController,
+  LogoutController,
+} from "../controllers/authController";
 
-const authRouter: Router = express.Router();
+const authRouter: Router = express.Router({mergeParams:true});
 
-// No need to use express.json() here if already in app.ts
-authRouter.post("/signup", asyncHandler(signupController));
-authRouter.post("/login", asyncHandler(loginController));
-authRouter.post("/logout",asyncHandler(logoutController));
+authRouter.post("/signup", asyncHandler(SignupController));
+authRouter.post("/login", asyncHandler(LoginController));
+authRouter.post("/logout",asyncHandler(LogoutController));
 export default authRouter;

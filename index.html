@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Razorpay Test</title>
+  </head>
+  <body>
+    <h1>Razorpay Test Payment</h1>
+    <button id="rzp-button">Pay Now</button>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+      const options = {
+        key: "rzp_test_RgIPh9Rwj1Pef6", // <-- PUT YOUR TEST KEY HERE
+        amount: 50000, // amount = 200.00 INR
+        currency: "INR",
+        name: "My Test Store",
+        description: "SIMX Test Payment", 
+        order_id: "order_Rm0955w8Nz1GXJ", // <-- YOUR ORDER ID HERE
+
+        handler: function (response) {
+          alert("Payment Successful!");
+          console.log(response);
+        },
+
+        prefill: {
+          name: "John Doe",
+          email: "john@example.com",
+          contact: "9876543210",
+        },
+
+        theme: {
+          color: "#3399cc",
+        },
+      };
+
+      const rzp = new Razorpay(options);
+
+      document.getElementById("rzp-button").onclick = function (e) {
+        rzp.open();
+        e.preventDefault();
+      };
+    </script>
+  </body>
+</html>
