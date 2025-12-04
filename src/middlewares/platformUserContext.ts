@@ -32,7 +32,13 @@ export const platformAuthenticate = async (
     req.user = user;
 
     next();
-  } catch (error) {
-    next(error);
+  } catch (error:any) {
+      // token expired
+    if (error.name === 'TokenExpiredError') {
+        throw new AppError("Access token expired", 401);
+    }
+
+    // invalid token
+    throw new AppError("Invalid access token", 401);
   }
 };

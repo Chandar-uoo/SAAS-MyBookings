@@ -1,4 +1,3 @@
-
 import { Request, Response, NextFunction } from "express";
 import { AppError } from "../utils/errors";
 import { JwtTokenProvider } from "../provider/implementations/jwtTokenProvider";
@@ -32,7 +31,13 @@ export const authenticateUser = async (
     req.user = user;
 
     next();
-  } catch (error) {
-    next(error);
+  } catch (error: any) {
+    // token expired
+    if (error.name === "TokenExpiredError") {
+      throw new AppError("Access token expired", 401);
+    }
+
+    // invalid token
+    throw new AppError("Invalid access token", 401);
   }
 };
