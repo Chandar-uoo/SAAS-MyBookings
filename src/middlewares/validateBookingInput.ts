@@ -1,6 +1,6 @@
 
 import { Request, Response, NextFunction } from "express";
-import { ValidationError } from "../utils/errors";
+import { AppError } from "../utils/errors";
 import { createBookingSchema } from "../validation/createBookingSchema";
 
 export const validate =
@@ -11,7 +11,7 @@ export const validate =
 
     if (error) {
       const message = error.details[0].message;
-      throw new ValidationError(message);
+      throw new AppError(message,400);
     }
     req.body = value;
 

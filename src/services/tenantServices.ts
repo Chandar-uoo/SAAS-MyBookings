@@ -1,6 +1,6 @@
 import { CreateTenantDTO } from "../dto/tenant";
 import { TenantRepositary } from "../repositories/tenantRepositary";
-import { AppError, ConflictError } from "../utils/errors";
+import { AppError } from "../utils/errors";
 import { IPaymentHandlers } from "../provider/interfaces/IPaymentHandlers";
 import { Prisma } from "@prisma/client";
 
@@ -14,12 +14,12 @@ export class TenantService {
     //1. owner exist
     const ownerExist = await this.tenantRepository.findByOwnerId(userId);
 
-    if (ownerExist) throw new ConflictError("You already created a business");
+    if (ownerExist) throw new AppError("You already created a business",409);
 
     // 2 . slug check
     const slugExists = await this.tenantRepository.findBySlug(data.slug);
 
-    if (slugExists) throw new ConflictError("Business slug already exists.");
+    if (slugExists) throw new AppError("Business slug already exists.",409);
 
     // 4. timing chech
     const open = new Date(`1970-01-01T${data.openTime}:00`);

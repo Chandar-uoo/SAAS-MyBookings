@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { ObjectSchema } from "joi";
 import { registerUserSchema } from "../validation/registerUserSchema";
-import { ValidationError } from "../utils/errors";
+import { AppError } from "../utils/errors";
 
 export const validateUserRegister =
   (schema: ObjectSchema) =>
@@ -12,7 +12,7 @@ export const validateUserRegister =
 
     if (error) {
       const message = error.details[0].message;
-      throw new ValidationError(message);
+      throw new AppError(message,400);
     }
     req.body = value;
 

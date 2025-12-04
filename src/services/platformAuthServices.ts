@@ -1,5 +1,5 @@
 import { PlatformUserRepository } from "../repositories/platformUserRepository";
-import { ConflictError, AuthError } from "../utils/errors";
+import { AppError } from "../utils/errors";
 
 import { ITokenProvider } from "../provider/interfaces/ItokenProvider";
 import { IPasswordHasher } from "../provider/interfaces/IPasswordHasher";
@@ -18,7 +18,7 @@ export class PlatformAuthService {
     // check emailExists
     const emailExists = await this.platformUserRepository.findEmailExists(data.email);
     if (emailExists) {
-      throw new ConflictError("Email already exists");
+      throw new AppError("Email already exists",409);
     }
     //hash password
     const hashedPassword = await this.passwordHasher.hash(data.password);
@@ -43,7 +43,7 @@ export class PlatformAuthService {
     // check emailExists
     const user = await this.platformUserRepository.findEmailExists(data.email);
     if (!user) {
-      throw new AuthError("invalid email or password");
+      throw new AppError("invalid email or password",400);
     }
     const isPasswordValid = await this.passwordHasher.compare(
       data.password,
@@ -51,7 +51,7 @@ export class PlatformAuthService {
     );
 
     if (!isPasswordValid) {
-      throw new AuthError("invalid email or password");
+      throw new AppError("invalid email or password",400);
     }
 
     const { password, ...safeuser } = user;

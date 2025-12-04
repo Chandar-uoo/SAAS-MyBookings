@@ -2,7 +2,7 @@
 
 import { Request, Response, NextFunction } from "express";
 import { loginSchema } from "../validation/loginUserValidation";
-import { ValidationError } from "../utils/errors";
+import { AppError } from "../utils/errors";
 
 export const validate =
   (schema: any) => (req: Request, res: Response, next: NextFunction) => {
@@ -12,7 +12,7 @@ export const validate =
 
     if (error) {
       const message = error.details[0].message;
-      throw new ValidationError(message);
+      throw new AppError(message,400);
     }
     req.body = value;
 

@@ -12,23 +12,3 @@ export class AppError extends Error{
             Error.captureStackTrace(this,this.constructor)
         }
 }
-export class ConflictError extends AppError{
-    constructor(message:string){
-        super(message,409)
-    }
-}
-export class AuthError extends AppError {
-    constructor(message:string){
-        super(message,401)
-    }
-}
-export class ValidationError extends AppError{
-    constructor(message:string){
-        super(message,400)
-    }
-}
-export class InvalidRazorpaySignature extends AppError{
-    constructor(message:string){
-        super(message,400)
-    }
-}

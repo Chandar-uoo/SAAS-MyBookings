@@ -2,7 +2,7 @@ import PrismaSingleton from "../config/prisma.singleton";
 import { eventBus } from "../event/eventBus";
 import { IPaymentHandlers } from "../provider/interfaces/IPaymentHandlers";
 import { PaymentRepositary } from "../repositories/paymentRepositary";
-import { InvalidRazorpaySignature } from "../utils/errors";
+import { AppError } from "../utils/errors";
 const prisma = PrismaSingleton.getInstance();
 export class PaymentService {
   constructor(
@@ -17,7 +17,7 @@ export class PaymentService {
       rawBody
     );
     if (!isValid)
-      throw new InvalidRazorpaySignature("Invalid Razorpay signature");
+      throw new AppError("Invalid Razorpay signature",400);
 
     // 2. convert to objects
     const payload = JSON.parse(rawBody);

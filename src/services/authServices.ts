@@ -1,6 +1,6 @@
 import { ITokenProvider } from "../provider/interfaces/ItokenProvider";
 import { AuthRepositary } from "../repositories/authRepositary";
-import { AuthError, ConflictError } from "../utils/errors";
+import { AppError } from "../utils/errors";
 import { LoginUserDto, RegisterUserDto } from "../dto/userDto";
 import { IPasswordHasher } from "../provider/interfaces/IPasswordHasher";
 
@@ -17,7 +17,7 @@ export class AuthServices {
       data.email
     );
     if (emailExists) {
-      throw new ConflictError("Email already exists");
+      throw new AppError ("Email already exists",409);
     }
     //hash password
     const hashedPassword = await this.passwordHasher.hash(data.password);
@@ -45,7 +45,7 @@ export class AuthServices {
     );
 
     if (!user) {
-      throw new AuthError("invalid email or password");
+      throw new AppError("invalid email or password",401);
     }
     const isPasswordValid = await this.passwordHasher.compare(
       data.password,
@@ -53,7 +53,7 @@ export class AuthServices {
     );
 
     if (!isPasswordValid) {
-      throw new AuthError("invalid email or password");
+      throw new AppError("invalid email or password",401);
     }
 
     const { password, ...safeuser } = user;

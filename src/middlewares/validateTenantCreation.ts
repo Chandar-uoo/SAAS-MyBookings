@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { tenantSchemaValidate } from "../validation/tenantSchemaValidate";
-import { ValidationError } from "../utils/errors";
+import {  AppError} from "../utils/errors";
 
 export const validateCreateTenant = (
   req: Request,
@@ -13,7 +13,7 @@ export const validateCreateTenant = (
 
   if (error) {
     const message = error.details[0].message; 
-    throw new ValidationError(message);
+    throw new AppError(message,400);
   }
 req.body =  value;
 

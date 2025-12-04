@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { ValidationError } from "../utils/errors";
+import { AppError } from "../utils/errors";
 import { userInputValidate } from "../validation/userInputValidate";
 export const validateUserInput = (
   req: Request,
@@ -13,7 +13,7 @@ export const validateUserInput = (
 
   if (error) {
     const message = error.details[0].message; 
-    throw new ValidationError(message);
+    throw new AppError(message,400);
   }
 req.body =  value;
 
