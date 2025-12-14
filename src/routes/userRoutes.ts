@@ -10,10 +10,10 @@ import { authenticateUser } from "../middlewares/userContext";
 const userServiceRouter: Router = express.Router({mergeParams:true});
 
 // read Slots
-userServiceRouter.get("/read_slots/:id",authenticateUser,tenantContextMiddleware,serviceContextMiddleware,validateUserInput,asyncHandler(readSlotsController));
+userServiceRouter.get("/availability/:id",authenticateUser,tenantContextMiddleware,serviceContextMiddleware,validateUserInput,asyncHandler(readSlotsController));
 // read 
-userServiceRouter.get("/read",tenantContextMiddleware,asyncHandler(readServicesController));
+userServiceRouter.get("/",tenantContextMiddleware,asyncHandler(readServicesController));
 // booking
-userServiceRouter.get("/book/:id",authenticateUser,tenantContextMiddleware,serviceContextMiddleware,asyncHandler(bookingController));
+userServiceRouter.get("/bookings/:id",authenticateUser,tenantContextMiddleware,serviceContextMiddleware,asyncHandler(bookingController));
 
 export default userServiceRouter;

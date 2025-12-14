@@ -10,12 +10,12 @@ import { authenticateUser } from "../middlewares/userContext";
 const adminRouter: Router = express.Router({mergeParams:true});
 // later add service middleware
 // create
-adminRouter.post("/services/create",authenticateUser,tenantContextMiddleware,validateCreateService,asyncHandler(serviceCreateController));
+adminRouter.post("/services",authenticateUser,tenantContextMiddleware,validateCreateService,asyncHandler(serviceCreateController));
 // read 
-adminRouter.get("/services/read",authenticateUser,tenantContextMiddleware,asyncHandler(serviceReadController));
+adminRouter.get("/services",authenticateUser,tenantContextMiddleware,asyncHandler(serviceReadController));
 //update
-adminRouter.patch("/services/update/:id",authenticateUser,tenantContextMiddleware,serviceContextMiddleware,validateUpdateService,asyncHandler(serviceUpdateController));
+adminRouter.patch("/services/:id",authenticateUser,tenantContextMiddleware,serviceContextMiddleware,validateUpdateService,asyncHandler(serviceUpdateController));
 //delete
-adminRouter.delete("/services/delete/:id",authenticateUser,tenantContextMiddleware,serviceContextMiddleware,asyncHandler(serviceDeleteController));
+adminRouter.delete("/services/:id",authenticateUser,tenantContextMiddleware,serviceContextMiddleware,asyncHandler(serviceDeleteController));
 
 export default adminRouter;
