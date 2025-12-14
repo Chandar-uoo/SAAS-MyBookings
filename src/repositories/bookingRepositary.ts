@@ -1,5 +1,4 @@
 import { Prisma, PrismaClient } from "@prisma/client";
-import PrismaSingleton from "../config/prisma.singleton";
 
 // Helper types
 export type TimeRange = { start: Date; end: Date };
