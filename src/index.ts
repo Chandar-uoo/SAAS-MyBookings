@@ -28,7 +28,7 @@ app.use("/api/platform/auth",platformAuthRouter);
 app.use("/api/platform/tenant",tenantRouter);
 app.use("/api/:slug/auth",authRouter);
 app.use("/api/:slug/admin",adminRouter)
-app.use("/api/:slug/user",userServiceRouter)
+app.use("/api/:slug/users",userServiceRouter)
 
 
 
