@@ -11,6 +11,7 @@ import { TenantBusinessInfo } from "../types/tenant";
 import { CreateBookingInput } from "../types/Booking";
 import { IPaymentHandlers } from "../provider/interfaces/IPaymentHandlers";
 import { BookingEngineFactory } from "../factory/bookingEngineFactory";
+import { IBookingEngine } from "../provider/interfaces/IBookingEngine";
 
 const prisma = PrismaSingleton.getInstance();
 
@@ -122,7 +123,9 @@ export class UserServices {
       let easypay = null;
       // 3. create easy pay instance
       if (tenant.paymentRequired) {
-        easypay = await this.paymentHandlers.createOrder(meta, service.price!);
+        const quantity  =  ctx.qty ?? 1 ; 
+        const amount = service.price! * 100 * quantity;
+        easypay = await this.paymentHandlers.createOrder(meta,amount);
       }
 
       return { booking, easypay };
