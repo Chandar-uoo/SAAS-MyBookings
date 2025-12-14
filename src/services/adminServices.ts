@@ -23,7 +23,7 @@ export class AdminServices {
       tenant.resourceType
     );
     // 4 validate the resource
-    resourceTypeEngine.validate(data);
+   await resourceTypeEngine.validate(data);
     // 4. If tenant requires payment → price is mandatory
     if (
       tenant.paymentRequired &&
@@ -85,11 +85,11 @@ export class AdminServices {
 
     // mark as delete
 
-    const markAsdeleteService = this.adminRepositary.deleteServiceById(
+     this.adminRepositary.deleteServiceById(
       schemaName,
       service.id
     );
-
-    return { markAsdeleteService };
+    
+    return ;
   }
 }
