@@ -16,7 +16,7 @@ export class ProvisionerService {
       throw new Error(`Tenant not found with id: ${tenantId}`);
     }
 
-    // Since slug is required in your model, no fallback needed
+    // slug
     const slug = tenant.slug;
 
     // url
@@ -25,7 +25,7 @@ export class ProvisionerService {
       dashboardURL: `http://localhost:3000/api/admin/${slug}`,
     };
 
-    // Step 2: create schema & DDL (not inside txn)
+    // Step 2: create schema & DDL
     await this.provisionerRepository.createTenantSchema(slug);
     await this.provisionerRepository.createTables(`tenant_${slug}`);
 
