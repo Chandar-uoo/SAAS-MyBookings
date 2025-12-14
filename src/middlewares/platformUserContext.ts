@@ -24,7 +24,7 @@ export const platformAuthenticate = async (
 
     const decoded = tokenProvider.verifyAccessToken(token);
     if(!decoded)   throw new AppError("Login Again", 404);
-    console.log(decoded);
+  
     
     const user = await platformUserRepository.findUserById(decoded.id);
     if (!user) throw new AppError("User not found", 404);
