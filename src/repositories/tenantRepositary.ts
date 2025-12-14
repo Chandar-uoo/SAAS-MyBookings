@@ -4,32 +4,27 @@ import { Prisma } from "@prisma/client";
 const prisma = PrismaSingleton.getInstance();
 
 export class TenantRepositary {
-  async createPendingTenant(data:Prisma.TenantCreateInput) {
-   
-
-    return prisma.tenant.create({ data});
+  async createPendingTenant(data: Prisma.TenantCreateInput) {
+    return prisma.tenant.create({ data });
   }
 
-async findBySlug(slug: string) {
-  return prisma.tenant.findUnique({
-    where: { slug },
-    select: {
-      id:true,
-      businessName: true,
-      slug: true,
-      category: true,
-      resourceType:true,
-      openTime: true,
-      closeTime: true,
-      daysAvailable: true,
-      paymentRequired: true,
-      paymentType: true,
-    }
-  });
-}
-
-
-  async findByOwnerId(id: string) {
-    return prisma.tenant.findUnique({ where: { ownerId: id } });
+  async findBySlug(slug: string) {
+    return prisma.tenant.findUnique({
+      where: { slug },
+      select: {
+        id: true,
+        businessName: true,
+        slug: true,
+        category: true,
+        resourceType: true,
+        openTime: true,
+        closeTime: true,
+        daysAvailable: true,
+        paymentRequired: true,
+        paymentType: true,
+      },
+    });
   }
+
+
 }
