@@ -9,7 +9,7 @@ export const computeTimeRangAvailabilty = async (
   service: UserServiceEntity,
   bookingReposiatry: BookingRepository,
   parsed: ParsedBookingTimes,
-  client:PrismaClient,
+  client: PrismaClient,
   quantity?: number
 ) => {
   const hasCapcity =
@@ -36,14 +36,9 @@ export const computeTimeRangAvailabilty = async (
     parsed.endDateTime,
     client
   );
-console.log(usedQty);
-console.log(service.capacity);
-
 
 
   const avlQty = service.capacity! - usedQty;
-console.log(avlQty);
-console.log(quantity);
 
   return { avlQty };
 };
