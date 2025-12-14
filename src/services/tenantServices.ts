@@ -11,17 +11,14 @@ export class TenantService {
   ) {}
   // create tenant
   async createTenantService(userId: string, data: CreateTenantDTO) {
-    //1. owner exist
-    const ownerExist = await this.tenantRepository.findByOwnerId(userId);
+  
 
-    if (ownerExist) throw new AppError("You already created a business",409);
-
-    // 2 . slug check
+    // 1 . slug check
     const slugExists = await this.tenantRepository.findBySlug(data.slug);
 
     if (slugExists) throw new AppError("Business slug already exists.",409);
 
-    // 4. timing chech
+    // 2. timing chech
     const open = new Date(`1970-01-01T${data.openTime}:00`);
     const close = new Date(`1970-01-01T${data.closeTime}:00`);
 
@@ -48,14 +45,14 @@ export class TenantService {
         connect: { id: userId },
       },
     };
-    // 5. Proceed with creating tenant (pending)
+    // 4. Proceed with creating tenant (pending)
     const tenant = await this.tenantRepository.createPendingTenant(createInput);
-    // 5.1
+    // 4.1
     const meta = {
       type: "TENANT_REGISTRATION",
       tenantId: tenant.id,
     };
-    // 6 . payment initilze
+    // 5 . payment initilze
 
     const { orderId } = await this.paymentHandlers.createOrder(meta, 50000);
 
