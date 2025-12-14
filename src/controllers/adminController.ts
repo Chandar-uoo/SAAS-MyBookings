@@ -52,12 +52,11 @@ export const serviceDeleteController = async (req: Request, res: Response) => {
   const tenant = req.tenant;
   //@ts-ignore
   const service = req.service;
-  const { markAsdeleteService } = await adminServices.deleteService(
+   await adminServices.deleteService(
     tenant,
     service
   );
-  return res.status(200).json({
+  return res.status(204).json({
     status: "success",
-    data: markAsdeleteService,
   });
 };
