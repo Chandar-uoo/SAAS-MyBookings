@@ -7,7 +7,7 @@ export const validateUserInput = (
   next: NextFunction
 ) => {
   const { error,value } = userInputValidate
-.validate(req.body, {
+.validate(req.query, {
     abortEarly: true // return only the FIRST error
   });
 
@@ -15,7 +15,8 @@ export const validateUserInput = (
     const message = error.details[0].message; 
     throw new AppError(message,400);
   }
-req.body =  value;
+  //@ts-ignore
+req.validatedInput =  value;
 
   next();
 };

@@ -14,6 +14,6 @@ userServiceRouter.get("/availability/:id",authenticateUser,tenantContextMiddlewa
 // read 
 userServiceRouter.get("/",tenantContextMiddleware,asyncHandler(readServicesController));
 // booking
-userServiceRouter.get("/bookings/:id",authenticateUser,tenantContextMiddleware,serviceContextMiddleware,asyncHandler(bookingController));
+userServiceRouter.post("/bookings/:id",authenticateUser,tenantContextMiddleware,serviceContextMiddleware,asyncHandler(bookingController));
 
 export default userServiceRouter;

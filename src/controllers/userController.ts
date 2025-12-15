@@ -33,7 +33,9 @@ export const readSlotsController = async (req: Request, res: Response) => {
   const tenant = req.tenant;
   // @ts-ignore
   const service = req.service;
-  const data: BookingInputDTO = req.body;
+  //@ts-ignore
+  const validatedInput = req.validatedInput
+  const data: BookingInputDTO = validatedInput;
   const result = await userServices.readSlots(service, tenant, data);
   return res.status(200).json({
     status: "success",
