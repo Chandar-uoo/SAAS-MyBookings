@@ -51,7 +51,7 @@ export class PlatformAuthService {
     );
 
     if (!isPasswordValid) {
-      throw new AppError("invalid email or password",400);
+      throw new AppError("invalid email or password",401);
     }
 
     const { password, ...safeuser } = user;
