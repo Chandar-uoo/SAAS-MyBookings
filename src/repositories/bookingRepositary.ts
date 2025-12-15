@@ -99,7 +99,7 @@ export class BookingRepository {
       SELECT COUNT(*)::INT AS count
       FROM "${schemaName}".bookings
       WHERE "service_id" = $1::uuid
-        AND status IN ('pending','confirmed')
+        AND status IN ('PENDING','CONFIRMED')
         AND start_ts < $2
         AND end_ts > $3
     `,
