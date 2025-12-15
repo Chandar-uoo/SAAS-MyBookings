@@ -56,7 +56,5 @@ export const serviceDeleteController = async (req: Request, res: Response) => {
     tenant,
     service
   );
-  return res.status(204).json({
-    status: "success",
-  });
+  return res.status(204).send();
 };
