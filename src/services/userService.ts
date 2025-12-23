@@ -1,4 +1,3 @@
-import { BookingInputDTO } from "../dto/userDto";
 import { BookingRepository } from "../repositories/bookingRepositary";
 import { ServiceRepositary } from "../repositories/serviceRepositary";
 import { validateAndParseBookingInput } from "../validation/BookingValidators";
@@ -6,12 +5,10 @@ import { computeAvailabilty } from "../factory/computeAvailabilty";
 import { ServiceEntity } from "../types/serviceEntity";
 import PrismaSingleton from "../config/prisma.singleton";
 import { AppError } from "../utils/errors";
-import { CreateBookingInputs } from "../types/parsedBookingTimes";
 import { TenantBusinessInfo } from "../types/tenant";
-import { CreateBookingInput } from "../types/Booking";
+import { BookingInputDTO, CreateBookingInput } from "../dto/Booking";
 import { IPaymentHandlers } from "../provider/interfaces/IPaymentHandlers";
 import { BookingEngineFactory } from "../factory/bookingEngineFactory";
-import { IBookingEngine } from "../provider/interfaces/IBookingEngine";
 
 const prisma = PrismaSingleton.getInstance();
 
@@ -59,6 +56,7 @@ export class UserServices {
     );
     return result;
   }
+
   async BookingService(
     userId: string,
     tenant: TenantBusinessInfo,
