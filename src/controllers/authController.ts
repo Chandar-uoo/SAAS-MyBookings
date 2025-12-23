@@ -4,6 +4,7 @@ import { PasswordHasher } from "../provider/implementations/bcryptHasher";
 import { AuthServices } from "../services/authServices";
 import { AuthRepositary } from "../repositories/authRepositary";
 import { LoginUserDto, RegisterUserDto } from "../dto/userDto";
+
 const tokenProvider = new JwtTokenProvider();
 const passwordHasher = new PasswordHasher();
 const authRepositary = new AuthRepositary();
@@ -15,7 +16,6 @@ const AuthService = new AuthServices(
 
 export const SignupController = async (req: Request, res: Response) => {
 
-  
   const {slug} =  req.params;
   const schemaName = `tenant_${slug}`;
   const data: RegisterUserDto = req.body;
@@ -24,8 +24,6 @@ export const SignupController = async (req: Request, res: Response) => {
     data
   );
   return res.status(201).json({
-
-
 
     status: "success",
     user,
