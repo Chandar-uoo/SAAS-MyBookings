@@ -2,13 +2,16 @@ import { Request, Response } from "express";
 import { PlatformAuthService } from "../services/platformAuthServices";
 import { JwtTokenProvider } from "../provider/implementations/jwtTokenProvider";
 import { PasswordHasher } from "../provider/implementations/bcryptHasher";
+import { LoginUserDto, PlatformRegisterUserDto } from "../dto/userDto";
+
 const tokenProvider = new JwtTokenProvider();
 const passwordHasher = new PasswordHasher();
 const platformAuthService = new PlatformAuthService(tokenProvider, passwordHasher);
 
 export const platformSignupController = async (req: Request, res: Response) => {
+  const data:PlatformRegisterUserDto =  req.body;
   const { user, accessToken, refreshToken } = await platformAuthService.PlatformSignupService(
-    req.body
+    data
   );
   return res.status(201).json({
     status: "success",
@@ -21,8 +24,9 @@ export const platformSignupController = async (req: Request, res: Response) => {
 };
 
 export const platFormLoginController = async (req: Request, res: Response) => {
+  const data : LoginUserDto = req.body;
   const { user, accessToken, refreshToken } = await platformAuthService.PlatformLoginService(
-    req.body
+    data
   );
   return res.status(200).json({
     status: "success",
