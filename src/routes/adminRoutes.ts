@@ -6,16 +6,17 @@ import { validateCreateService } from "../middlewares/validateServiceCreation";
 import { validateUpdateService } from "../middlewares/validateServiceUpdation";
 import { serviceContextMiddleware } from "../middlewares/serviceContext";
 import { authenticateUser } from "../middlewares/userContext";
+import { roleContolMiddleware } from "../middlewares/roleControl";
 
 const adminRouter: Router = express.Router({mergeParams:true});
-// later add service middleware
+
 // create
-adminRouter.post("/services",authenticateUser,tenantContextMiddleware,validateCreateService,asyncHandler(serviceCreateController));
+adminRouter.post("/services",authenticateUser,roleContolMiddleware,tenantContextMiddleware,validateCreateService,asyncHandler(serviceCreateController));
 // read 
-adminRouter.get("/services",authenticateUser,tenantContextMiddleware,asyncHandler(serviceReadController));
+adminRouter.get("/services",authenticateUser,roleContolMiddleware,tenantContextMiddleware,asyncHandler(serviceReadController));
 //update
-adminRouter.patch("/services/:id",authenticateUser,tenantContextMiddleware,serviceContextMiddleware,validateUpdateService,asyncHandler(serviceUpdateController));
+adminRouter.patch("/services/:id",authenticateUser,roleContolMiddleware,tenantContextMiddleware,serviceContextMiddleware,validateUpdateService,asyncHandler(serviceUpdateController));
 //delete
-adminRouter.delete("/services/:id",authenticateUser,tenantContextMiddleware,serviceContextMiddleware,asyncHandler(serviceDeleteController));
+adminRouter.delete("/services/:id",authenticateUser,roleContolMiddleware,tenantContextMiddleware,serviceContextMiddleware,asyncHandler(serviceDeleteController));
 
 export default adminRouter;
