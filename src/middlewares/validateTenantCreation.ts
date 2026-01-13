@@ -13,7 +13,7 @@ export const validateCreateTenant = (
 
   if (error) {
     const message = error.details[0].message; 
-    throw new AppError(message,400);
+    return next(new AppError(message,400));
   }
 req.body =  value;
 

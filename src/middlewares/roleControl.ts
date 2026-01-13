@@ -6,16 +6,13 @@ export const roleContolMiddleware = async (
   res: Response,
   next: NextFunction
 ) => {
-  try {
     //@ts-ignore
     const user = req.user;
 
     if (user.role != "ADMIN") {
-      throw new AppError("Access denied", 403);
+      return next(new AppError("Access denied", 403));
     }
 
     next();
-  } catch (error) {
-    next(error);
-  }
+  
 };

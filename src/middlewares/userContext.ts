@@ -34,10 +34,9 @@ export const authenticateUser = async (
   } catch (error: any) {
     // token expired
     if (error.name === "TokenExpiredError") {
-      throw new AppError("Access token expired", 401);
+      return next(new AppError("Access token expired", 401));
     }
 
-    // invalid token
-    throw new AppError("Invalid access token", 401);
+    next(error);
   }
 };
