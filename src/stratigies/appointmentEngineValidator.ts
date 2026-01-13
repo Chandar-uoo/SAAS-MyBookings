@@ -8,7 +8,7 @@ export class AppointmentEngineValidator implements IServiceValidator {
       data.duration_minutes === null ||
       data.duration_minutes <= 0
     ) {
-      throw new AppError("duration_minutes must be valid", 400);
+      throw new AppError("duration_minutes must be valid or present", 400);
     }
 
     data.capacity = 1;
