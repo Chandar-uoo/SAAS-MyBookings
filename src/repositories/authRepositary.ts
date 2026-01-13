@@ -1,13 +1,9 @@
 import PrismaSingleton from "../config/prisma.singleton";
+import { BaseRepositary } from "./baseRepositary";
 
 const prisma = PrismaSingleton.getInstance();
-export class AuthRepositary {
-  private sanitizeSchema(schema: string): string {
-    if (!/^[a-zA-Z0-9_]+$/.test(schema)) {
-      throw new Error("Invalid schema name");
-    }
-    return schema;
-  }
+export class AuthRepositary extends BaseRepositary {
+ 
 
   async registerUser(
     schemaName: string,

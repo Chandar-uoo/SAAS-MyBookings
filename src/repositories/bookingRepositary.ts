@@ -1,15 +1,11 @@
 import { Prisma, PrismaClient } from "@prisma/client";
+import { BaseRepositary } from "./baseRepositary";
 
 // Helper types
 export type TimeRange = { start: Date; end: Date };
 
-export class BookingRepository {
-  private sanitizeSchema(schema: string): string {
-    if (!/^[a-zA-Z0-9_]+$/.test(schema)) {
-      throw new Error("Invalid schema name");
-    }
-    return schema;
-  }
+export class BookingRepository extends BaseRepositary {
+ 
 
   async getBookingsForDate(
     schemaName: string,
@@ -99,7 +95,7 @@ export class BookingRepository {
       SELECT COUNT(*)::INT AS count
       FROM "${schemaName}".bookings
       WHERE "service_id" = $1::uuid
-        AND status IN ('PENDING','CONFIRMED')
+        AND status = 'CONFIRMED'
         AND start_ts < $2
         AND end_ts > $3
     `,

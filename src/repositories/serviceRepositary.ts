@@ -1,14 +1,10 @@
 import { UserServiceEntity } from "../types/userServiceEntity";
 import PrismaSingleton from "../config/prisma.singleton";
+import { BaseRepositary } from "./baseRepositary";
 
 const prisma = PrismaSingleton.getInstance();
-export class ServiceRepositary {
-  private sanitizeSchema(schema: string): string {
-    if (!/^[a-zA-Z0-9_]+$/.test(schema)) {
-      throw new Error("Invalid schema name");
-    }
-    return schema;
-  }
+export class ServiceRepositary extends BaseRepositary {
+  
 
   async readAllService(schemaName: string): Promise<UserServiceEntity[]> {
     schemaName = this.sanitizeSchema(schemaName);

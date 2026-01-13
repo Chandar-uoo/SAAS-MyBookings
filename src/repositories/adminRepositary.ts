@@ -1,16 +1,12 @@
 import PrismaSingleton from "../config/prisma.singleton";
 import { CreateServiceDTO, UpdateServiceDTO } from "../dto/adminDto";
 import { ServiceEntity } from "../types/serviceEntity";
+import { BaseRepositary } from "./baseRepositary";
 
 const prisma = PrismaSingleton.getInstance();
 
-export class AdminRepository {
-  private sanitizeSchema(schema: string): string {
-    if (!/^[a-zA-Z0-9_]+$/.test(schema)) {
-      throw new Error("Invalid schema name");
-    }
-    return schema;
-  }
+export class AdminRepository extends BaseRepositary {
+ 
 
   // RETURN TYPE: ServiceEntity
   async createService(
