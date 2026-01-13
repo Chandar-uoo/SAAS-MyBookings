@@ -1,0 +1,172 @@
+
+# 📘 Multi-Tenant Booking Platform API
+
+A scalable multi-tenant booking platform backend built using **Node.js, Express, and TypeScript**, supporting tenant isolation, role-based access, availability checks, bookings, and optional payment flows.
+
+This project is designed as a **SaaS backend foundation** suitable for clinics, rentals, appointment systems, and service-based businesses.
+
+---
+
+## 🧠 Core Concepts
+
+**Platform**  
+Manages tenants (businesses)
+
+**Tenant**  
+Represents a business (clinic, rental service, etc.)
+
+**Users**  
+Belong to tenants and create bookings
+
+**Services**  
+Created by tenant admins
+
+**Bookings**  
+Time-based reservations with availability validation
+
+---
+
+## 🏗 Architecture Overview
+
+```
+
+Client
+↓
+API Gateway (Express)
+↓
+Auth Layer (JWT)
+↓
+Tenant Resolver (company slug)
+↓
+Business Logic
+↓
+Database
+
+````
+
+---
+
+## 🔐 Authentication Model
+
+| Scope     | Auth Type | Token Variable |
+|----------|----------|----------------|
+| Platform | JWT      | platform_token |
+| Tenant   | JWT      | tenant_token   |
+
+- Platform users manage tenants  
+- Tenant users interact with services and bookings  
+
+---
+
+## 🌍 Environment Variables
+
+```env
+PORT=3000
+DATABASE_URL=postgres://...
+JWT_SECRET=your_secret
+````
+
+---
+
+## 🧪 API Documentation (Postman)
+
+**Live Postman Collection:**
+[https://galactic-escape-897289.postman.co/workspace/My-Workspace~ee18fde3-f8ad-4364-8ace-fe7158fb9f01/collection/43351678-03203bb6-7d43-4aca-9453-6cf3d79cf0fa](https://galactic-escape-897289.postman.co/workspace/My-Workspace~ee18fde3-f8ad-4364-8ace-fe7158fb9f01/collection/43351678-03203bb6-7d43-4aca-9453-6cf3d79cf0fa)
+
+### Postman Environment Variables
+
+| Variable       | Description  |
+| -------------- | ------------ |
+| baseUrl        | API base URL |
+| company        | Tenant slug  |
+| platform_token | Platform JWT |
+| tenant_token   | Tenant JWT   |
+
+---
+
+## 🔄 Typical Flow
+
+1. Platform user registers and logs in
+2. Platform user creates a tenant
+3. Tenant users sign up and log in
+4. Admin creates services
+5. Users check availability
+6. Users create bookings
+7. Optional payment initiation
+
+---
+
+## 📦 API Modules
+
+### Platform Auth
+
+* `POST /api/platform/auth/signup`
+* `POST /api/platform/auth/login`
+
+### Tenant Management
+
+* `POST /api/platform/tenant/register`
+
+### Tenant Auth
+
+* `POST /api/{company}/auth/signup`
+* `POST /api/{company}/auth/login`
+
+### Admin (Tenant)
+
+* `POST /api/{company}/admin/services`
+* `PATCH /api/{company}/admin/services/:id`
+* `GET /api/{company}/admin/services`
+* `DELETE /api/{company}/admin/services/:id`
+
+### User APIs
+
+* `GET /api/{company}/users`
+* `GET /api/{company}/users/availability/:serviceId`
+* `POST /api/{company}/users/bookings/:serviceId`
+
+---
+
+## ⚙️ Booking Logic
+
+* Availability is calculated dynamically based on:
+
+  * Service duration
+  * Capacity
+  * Existing bookings
+* Prevents overlapping bookings
+* Supports quantity-based booking for capacity-based services
+
+---
+
+## 🧩 Tech Stack
+
+* Node.js
+* Express.js
+* TypeScript
+* JWT Authentication
+* PostgreSQL / SQL-based database
+* Postman for API documentation
+
+---
+
+## 📈 Future Enhancements
+
+* Payment webhooks
+* Booking cancellation and reschedule
+* Admin analytics dashboard
+* optimization and performance
+* Rate limiting
+* Redis caching
+* WebSocket-based slot locking
+
+---
+
+## 🧑‍💻 Author
+
+**Chandru V**
+Backend-focused Full Stack Developer
+Specializing in scalable SaaS systems
+
+```
+
