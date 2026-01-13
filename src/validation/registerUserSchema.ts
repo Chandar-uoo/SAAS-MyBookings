@@ -10,12 +10,13 @@ export const registerUserSchema = Joi.object({
   email: Joi.string()
     .trim()
     .email()
+    .lowercase()
     .required(),
 
   phone: Joi.string()
     .trim()
     .pattern(/^[0-9]{10,15}$/) // only digits, 10–15 length
-    .required(),
+    .optional(),
 
   password: Joi.string()
     .min(6)
