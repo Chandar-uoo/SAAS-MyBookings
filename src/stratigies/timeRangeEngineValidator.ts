@@ -1,4 +1,3 @@
-import { CreateServiceDTO } from "../dto/adminDto";
 import { IServiceValidator } from "../provider/interfaces/IServiceValidator";
 import { AppError } from "../utils/errors";
 
