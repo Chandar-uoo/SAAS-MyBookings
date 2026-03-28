@@ -5,11 +5,14 @@ import { PaymentSuccessHandlerFactory } from "../factory/paymentSuccessHandlersF
 import { BookingRepository } from "../repositories/bookingRepositary";
 import { BookingService } from "../services/bookingServices";
 import { PaymentRepositary } from "../repositories/paymentRepositary";
+import PrismaSingleton from "../config/prisma.singleton";
+const prisma = PrismaSingleton.getInstance();
 const paymentRepositary = new PaymentRepositary();
 const provisionerRepository = new ProvisionerRepository();
 const provisionerService = new ProvisionerService(provisionerRepository,paymentRepositary);
 const bookingRepositary = new BookingRepository();
-const bookingService = new BookingService(bookingRepositary, paymentRepositary);
+const bookingService = new BookingService(bookingRepositary, paymentRepositary,prisma);
+
 eventBus.on("payment.success", async ({ paymentIntent, paymentId }) => {
   try {
     const { type } = paymentIntent;

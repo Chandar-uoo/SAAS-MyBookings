@@ -3,20 +3,20 @@ import { ServiceRepositary } from "../repositories/serviceRepositary";
 import { validateAndParseBookingInput } from "../validation/BookingValidators";
 import { computeAvailabilty } from "../factory/computeAvailabilty";
 import { ServiceEntity } from "../types/serviceEntity";
-import PrismaSingleton from "../config/prisma.singleton";
 import { AppError } from "../utils/errors";
 import { TenantBusinessInfo } from "../types/tenant";
 import { BookingInputDTO, CreateBookingInput } from "../dto/Booking";
 import { IPaymentHandlers } from "../provider/interfaces/IPaymentHandlers";
 import { BookingEngineFactory } from "../factory/bookingEngineFactory";
+import { PrismaClient } from "@prisma/client";
 
-const prisma = PrismaSingleton.getInstance();
 
 export class UserServices {
   constructor(
     private serviceRepositary: ServiceRepositary,
     private bookingReposiatry: BookingRepository,
-    private paymentHandlers: IPaymentHandlers
+    private paymentHandlers: IPaymentHandlers,
+    private prisma : PrismaClient
   ) {}
   async readServices(tenant: TenantBusinessInfo) {
     //@ts-ignore
@@ -51,7 +51,7 @@ export class UserServices {
       service,
       this.bookingReposiatry,
       parsed,
-      prisma,
+      this.prisma,
       data.quantity
     );
     return result;
@@ -98,7 +98,7 @@ export class UserServices {
       ctx
     );
 
-    return prisma.$transaction(async (tx) => {
+    return this.prisma.$transaction(async (tx) => {
       // 1. validate slot or capacity
       await engine.validate(tx);
 

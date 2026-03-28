@@ -4,14 +4,17 @@ import { ServiceRepositary } from "../repositories/serviceRepositary";
 import { UserServices } from "../services/userService";
 import { CreateBookingInput,BookingInputDTO } from "../dto/Booking";
 import { RzpyHelper } from "../provider/implementations/rzpyHandlers";
+import PrismaSingleton from "../config/prisma.singleton";
 const bookingReposiatry = new BookingRepository();
 const serviceRepositary = new ServiceRepositary();
 const rzpyHelper = new RzpyHelper();
+const prisma = PrismaSingleton.getInstance();
 
 const userServices = new UserServices(
   serviceRepositary,
   bookingReposiatry,
-  rzpyHelper
+  rzpyHelper,
+  prisma
 );
 
 export const readServicesController = async (req: Request, res: Response) => {

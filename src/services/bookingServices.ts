@@ -1,12 +1,12 @@
-import PrismaSingleton from "../config/prisma.singleton";
+import { PrismaClient } from "@prisma/client";
 import { BookingRepository } from "../repositories/bookingRepositary";
 import { PaymentRepositary } from "../repositories/paymentRepositary";
-const prisma = PrismaSingleton.getInstance();
 
 export class BookingService {
   constructor(
     private bookingRepositary: BookingRepository,
-    private paymentReposiatary: PaymentRepositary
+    private paymentReposiatary: PaymentRepositary,
+    private prisma :PrismaClient
   ) {}
   async handleBookingPayment(ctx: {
     schemaName: string;
@@ -14,7 +14,7 @@ export class BookingService {
     bookingId: string;
     paymentId: string;
   }) {
-    return prisma.$transaction(async (tx) => {
+    return this.prisma.$transaction(async (tx) => {
       await this.bookingRepositary.finalisingBookingOrder(tx, ctx);
       await this.paymentReposiatary.processUpdation(tx, ctx.paymentId);
       return;
